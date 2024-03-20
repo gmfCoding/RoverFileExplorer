@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rover", "Rover\Rover.csproj", "{5E5D781C-2F51-4D7A-A98C-B15AAAFB25BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rover.Core", "Rover.Core\Rover.Core.csproj", "{504A043D-6B35-4EBA-9C7B-CD8D56577683}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E5D781C-2F51-4D7A-A98C-B15AAAFB25BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E5D781C-2F51-4D7A-A98C-B15AAAFB25BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E5D781C-2F51-4D7A-A98C-B15AAAFB25BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E5D781C-2F51-4D7A-A98C-B15AAAFB25BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{504A043D-6B35-4EBA-9C7B-CD8D56577683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{504A043D-6B35-4EBA-9C7B-CD8D56577683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{504A043D-6B35-4EBA-9C7B-CD8D56577683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{504A043D-6B35-4EBA-9C7B-CD8D56577683}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {52620905-0EBC-4045-9645-F624AD1212EF}
+	EndGlobalSection
+EndGlobal
