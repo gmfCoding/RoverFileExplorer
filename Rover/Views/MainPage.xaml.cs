@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using Rover.Models;
 using Rover.ViewModels;
@@ -29,5 +31,10 @@ public partial class MainPage : Page
         if (view.SelectedItem is not FolderItem item)
             return;
         viewModel.FolderItemInteract.Execute(item);
+    }
+
+    private void SortableListViewColumnHeaderClicked(object sender, RoutedEventArgs e)
+    {
+        ((Controls.SortableListView)sender).GridViewColumnHeaderClicked(e.OriginalSource as GridViewColumnHeader);
     }
 }

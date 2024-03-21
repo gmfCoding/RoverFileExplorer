@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:vm="clr-namespace:Rover.ViewModels"
-    xmlns:properties="clr-namespace:Rover.Properties"
+    xmlns:controls="clr-namespace:Rover.Controls"
     mc:Ignorable="d"
     d:DesignHeight="450" d:DesignWidth="800"
     >
@@ -64,10 +64,10 @@
             <Button Content="" Margin="2" Width="26" Height="26" SnapsToDevicePixels="True" Style="{StaticResource IconButton}" Command="{Binding Path=ParentFolder}" Grid.Column="2" />
             <TextBox Margin="2" Name="folderUriField" Text="{Binding Path=Path, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Column="3"/>
         </Grid>
-        <ListView ItemsSource="{Binding Folder.Items}" Grid.Column="0" Grid.Row="2" MouseDoubleClick="ListView_MouseDoubleClick">
+        <controls:SortableListView ItemsSource="{Binding Folder.Items}" GridViewColumnHeader.Click="SortableListViewColumnHeaderClicked" Grid.Column="0" Grid.Row="2" MouseDoubleClick="ListView_MouseDoubleClick">
             <ListView.View>
-                <GridView AllowsColumnReorder="true">
-                    <GridViewColumn Header="Name">
+                <GridView  AllowsColumnReorder="true">
+                    <controls:SortedGridViewColumn MemberBinding="{Binding Name}" Header="Name">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -76,12 +76,12 @@
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    </controls:SortedGridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Size}" Header="Size (Bytes)"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Creation}" Header="Creation Date"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Type}" Header="Type"/>
                 </GridView>
             </ListView.View>
-        </ListView>
+        </controls:SortableListView>
     </Grid>
 </Page>

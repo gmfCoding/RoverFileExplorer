@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Rover.Models;
 using System.Windows.Input;
 using Rover.Composition;
+using System.Diagnostics;
 
 namespace Rover.ViewModels
 {
@@ -82,13 +83,25 @@ namespace Rover.ViewModels
                 NotifyCanExecuteChanged();
             });
 
-            FolderItemInteract = new RelayCommand<FolderItem>((item) =>
+            FolderItemInteract = new RelayCommand<FolderItem>(OnFolderItemCallback);
+        }
+
+        void OnFolderItemCallback(FolderItem item)
+        {
+            if (item.Type == FolderItem.FolderItemType.File)
             {
-                if (item.Type == FolderItem.FolderItemType.File)
-                    return;
+                // Multiple approaches could've been taken, this one seems okay.
+                using Process fileopener = new Process();
+
+                fileopener.StartInfo.FileName = "explorer";
+                fileopener.StartInfo.Arguments = "\"" + item.Path + "\"";
+                fileopener.Start();
+            }
+            else
+            {
                 Path = System.IO.Path.Combine(latest, item.Path);
                 NotifyCanExecuteChanged();
-            });
+            }
         }
 
         private void NotifyCanExecuteChanged()
