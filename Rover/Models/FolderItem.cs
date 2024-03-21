@@ -26,9 +26,11 @@ namespace Rover.Models
         private DateTime        modfied;
         private long            size;
         private FolderItemType  type;
+        private string          typeName;
 
         public ImageSource Icon { get; private set; }
         public FolderItemType Type { get => type; set { type = value; OnPropertyChanged(nameof(Type));  } }
+        public string TypeName { get => typeName; set { typeName = value; OnPropertyChanged(nameof(TypeName));  } }
         public long Size { get => size; set { size = value; OnPropertyChanged(nameof(Size)); } }
         public DateTime Creation { get => creation; set { creation = value; OnPropertyChanged(nameof(Creation)); } }
         public DateTime LastModified { get => modfied; set { modfied = value; OnPropertyChanged(nameof(LastModified)); } }
@@ -39,11 +41,15 @@ namespace Rover.Models
 
         public FolderItem(FolderItemType type, long size, DateTime creation, DateTime modified, bool readOnly, bool hidden, string path)
         {
+            // Models shouldn't "calculate data" right? this bad example is on purpose.
             PropertyChanged += (o, e) =>
             {
                 if (e.PropertyName == nameof(Path))
                     Icon = Util.IconHandler.GetIcon(path, true);
             };
+            // Similar situation
+            TypeName = Rover.Util.FileHandler.GetTypeName(path);
+
             Type = type;
             Size = size;
             Creation = creation;
