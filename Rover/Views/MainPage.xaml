@@ -45,7 +45,6 @@
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="570*"/>
-            <ColumnDefinition Width="230*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="41.423" />
@@ -79,6 +78,9 @@
                     </controls:SortedGridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Size}" Header="Size (Bytes)"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Creation}" Header="Creation Date"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=LastModified}" Header="Last Modified"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ReadOnly}" Header="Read Only"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Hidden}" Header="Hidden"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Type}" Header="Type"/>
                 </GridView>
             </ListView.View>

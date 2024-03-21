@@ -37,10 +37,10 @@ namespace Rover.Composition
 
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
-            if (e.ChangeType != WatcherChangeTypes.Changed)
-                return;
-            Console.WriteLine($"Changed: {e.FullPath}");
-            Reload(e.FullPath);
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                Reload(path);
+            });
         }
 
         public bool Reload(string path)
@@ -49,7 +49,13 @@ namespace Rover.Composition
                 return false;
             this.path = path;
             if (watcher != null)
+            {
+                watcher.Changed -= OnChanged;
+                watcher.Deleted -= OnChanged;
+                watcher.Created -= OnChanged;
+                watcher.Renamed -= OnChanged;
                 watcher.Dispose();
+            }
             watcher = new FileSystemWatcher(Path);
             watcher.NotifyFilter = NotifyFilters.Attributes
                               | NotifyFilters.CreationTime
@@ -60,6 +66,9 @@ namespace Rover.Composition
                               | NotifyFilters.Security
                               | NotifyFilters.Size;
             watcher.Changed += OnChanged;
+            watcher.Deleted += OnChanged;
+            watcher.Created += OnChanged;
+            watcher.Renamed += OnChanged;
             watcher.EnableRaisingEvents = true;
 
             Items.Clear();
@@ -67,14 +76,16 @@ namespace Rover.Composition
             foreach (var item in subdirectories)
             {
                 var info = new DirectoryInfo(item);
-                Items.Add(new FolderItem(FolderItem.FolderItemType.Folder, 0, info.CreationTime, item));
+                Items.Add(new FolderItem(FolderItem.FolderItemType.Folder, 0, info.CreationTime, info.LastWriteTime, 
+                    (info.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly, (info.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden, item));
             }
 
             string[] files = System.IO.Directory.GetFiles(Path);
             foreach (var item in files)
             {
                 var info = new FileInfo(item);
-                Items.Add(new FolderItem(FolderItem.FolderItemType.File, info.Length, info.CreationTime, item));
+                Items.Add(new FolderItem(FolderItem.FolderItemType.File, info.Length, info.CreationTime, info.LastWriteTime, 
+                    (info.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly, (info.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden, item));
             }
             ICollectionView view = CollectionViewSource.GetDefaultView(Items);
             view.Refresh();
