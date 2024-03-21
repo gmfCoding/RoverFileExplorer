@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Rover.Controls"
     xmlns:vm="clr-namespace:Rover.ViewModels"
     xmlns:properties="clr-namespace:Rover.Properties"
     mc:Ignorable="d"
@@ -34,24 +33,38 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="IconButtonConditional" BasedOn="{StaticResource IconButton}" TargetType="Button">
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="LightGray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
-    <Grid>
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="573*"/>
-            <ColumnDefinition Width="227*"/>
+            <ColumnDefinition Width="570*"/>
+            <ColumnDefinition Width="230*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="41.423" />
-            <RowDefinition Height="6.577"/>
+            <RowDefinition Height="6"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <Button Content="" Margin="4, 0, 2, 0" Width="25" Height="26" SnapsToDevicePixels="True" Style="{StaticResource IconButton}" Command="{Binding Path=HistoryBack}"/>
-            <Button Content="" Margin="2" Width="26" Height="26" SnapsToDevicePixels="True" Style="{StaticResource IconButton}" Command="{Binding Path=HistoryForward}"/>
-            <Button Content="" Margin="2" Width="26" Height="26" SnapsToDevicePixels="True" Style="{StaticResource IconButton}" Command="{Binding Path=ParentFolder}"/>
-            <TextBox  Margin="2" Name="folderUriField" Text="{Binding Path=Path, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
-        </StackPanel>
-        <ListView ItemsSource="{Binding Folder.Items}" Grid.Column="0" Grid.Row="2">
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="" Margin="4, 0, 2, 0" Width="26" Height="26" SnapsToDevicePixels="True" Style="{StaticResource IconButtonConditional}" Command="{Binding Path=HistoryBack}" Grid.Column="0"/>
+            <Button Content="" Margin="2" Width="26" Height="26" SnapsToDevicePixels="True" Style="{StaticResource IconButtonConditional}" Command="{Binding Path=HistoryForward}" Grid.Column="1"/>
+            <Button Content="" Margin="2" Width="26" Height="26" SnapsToDevicePixels="True" Style="{StaticResource IconButton}" Command="{Binding Path=ParentFolder}" Grid.Column="2" />
+            <TextBox Margin="2" Name="folderUriField" Text="{Binding Path=Path, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Column="3"/>
+        </Grid>
+        <ListView ItemsSource="{Binding Folder.Items}" Grid.Column="0" Grid.Row="2" MouseDoubleClick="ListView_MouseDoubleClick">
             <ListView.View>
                 <GridView AllowsColumnReorder="true">
                     <GridViewColumn Header="Name">

@@ -16,6 +16,8 @@ namespace Rover.ViewModels
 
         private string path = "";
 
+        private string latest = "";
+
         /// <summary>
         /// When modified sets the new path to the new value but doesn't update the history. <br/>
         /// Reloads ObersableFolderContentFolder
@@ -46,6 +48,7 @@ namespace Rover.ViewModels
         public RelayCommand HistoryBack { get; private set; }
         public RelayCommand HistoryForward { get; private set; }
         public RelayCommand ParentFolder { get; private set; }
+        public RelayCommand<FolderItem> FolderItemInteract { get; private set; }
 
         public bool CanHistoryBack => history != null && historyIndex < history.Count - 1;
         public bool CanHistoryFoward => history != null && historyIndex > 0;
@@ -53,6 +56,7 @@ namespace Rover.ViewModels
         public MainViewModel()
         {
             Path = Environment.CurrentDirectory;
+            latest = Path;
             SetupCommands();
         }
 
@@ -75,7 +79,14 @@ namespace Rover.ViewModels
             ParentFolder = new RelayCommand(() =>
             {
                 Path = System.IO.Directory.GetParent(CurrentPath).FullName;
-                System.Diagnostics.Trace.WriteLine(Path);
+                NotifyCanExecuteChanged();
+            });
+
+            FolderItemInteract = new RelayCommand<FolderItem>((item) =>
+            {
+                if (item.Type == FolderItem.FolderItemType.File)
+                    return;
+                Path = System.IO.Path.Combine(latest, item.Path);
                 NotifyCanExecuteChanged();
             });
         }
@@ -90,7 +101,8 @@ namespace Rover.ViewModels
         {
             if (recordHistory)
                 AddPathHistory(path);
-            Folder.Reload(path);
+            if (Folder.Reload(path))
+                latest = path;
         }
 
         public void AddPathHistory(string path)
